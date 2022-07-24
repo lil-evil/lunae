@@ -1,6 +1,0 @@
-{
-    "intents":3276799,
-    "retryLimit": 3,
-    "requestTimeout":5000,
-    "protectToken":true
-}
