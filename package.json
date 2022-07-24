@@ -1,5 +1,5 @@
 {
-  "name": "@lunae/lunae",
+  "name": "@lilevil/lunae",
   "version": "0.0.2",
   "description": "discord api wrapper",
   "main": "src/app.js",
