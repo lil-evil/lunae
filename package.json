@@ -1,0 +1,23 @@
+{
+  "name": "lunae",
+  "version": "0.0.2",
+  "description": "discord api wrapper",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "discord",
+    "api",
+    "wrapper",
+    "discordjs",
+    "lunae"
+  ],
+  "author": "lilevil",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.7",
+    "uuid": "^8.3.2",
+    "ws": "^8.8.0"
+  }
+}
