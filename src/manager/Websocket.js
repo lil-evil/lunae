@@ -43,8 +43,12 @@ class WebSocketManager extends require("node:events"){
                 this.readyData = d
             }
             const r = this.lunae.middleware.handle(t, d)
-            this.lunae.emit(r[0], r[1])
-            this.lunae.emit("*", r[0], r[1])
+            if(!r){}
+            else {
+                this.lunae.emit(r[0], r[1])
+                this.lunae.emit("*", r[0], r[1])
+            }
+
         })
         this.on("1", (data)=>{    /* heartbeat */
             console.log("op: 1", data)
@@ -125,7 +129,7 @@ class WebSocketManager extends require("node:events"){
         this.send(2, {
                 d:{
                     token,
-                    intents:this.intents.value,
+                    intents:String(this.intents.value),
                     large_threshold:250,
                     /* shard:[], */
                     /* presence:{}, */

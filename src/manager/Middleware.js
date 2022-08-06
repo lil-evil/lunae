@@ -37,18 +37,33 @@ const handlers = {
 class Middleware {
     constructor(lunae){
         Object.defineProperty(this, "lunae", {value:lunae, writable:false, configurable:false})
+        this._list = []
     }
-    handle(event, data){
+    handle(event, ...data){
+        let passthrough = false
+        function done(ev, dt){
+            if(!ev && (!dt || dt?.length < 1))return passthrough=true
+            if(!ev || (!dt || dt?.length < 1) )return
+            else {
+                event = ev, data = dt
+                return passthrough=true
+            }
+        }
+        for(let func of this._list){
+            if(typeof func !== "function")continue
+            if(passthrough)continue
+            func(event, data, done)
+        }
+        if(!passthrough)return
         if(event in handlers){
-            return handlers[event](this.lunae, data)
-        } else return [event, data]
+            return handlers[event](this.lunae, ...data)
+        } else return [event, ...data]
     }
     
-
-    get(){}
-    has(){}
-    use(){}
-    delete(){}
+    use(func){
+        if(typeof func !== "function")throw new error({message:"middleware must be a function."})
+        this._list.push(func)
+    }
 }
 
 module.exports = Middleware

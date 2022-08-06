@@ -9,8 +9,7 @@ function formatGuild(data, lunae, add){
 }
 class GuildsManager extends BaseManager{
     constructor(lunae){
-        super(lunae)
-        
+        super(lunae)        
     }
     async fetch(id){
         if(!id || typeof id !== "string") throw new error({message:"missing valid id."})
@@ -23,44 +22,34 @@ class GuildsManager extends BaseManager{
 class Guild{
     constructor(data, lunae){
         Object.defineProperty(this, "lunae", {value:lunae})
-        this.id = data.id
-        this.name = data.name
-        this.channels = new Channel.manager(lunae)
-        /* add channels */
-        if(Array.isArray(data.channels)){
-            data.channels.forEach((t)=>{
-                t = Channel(t, lunae)
-                t.guild = t
-                lunae.channels._add(t.id, t)
-                this.channels._add(t.id, t)
-            })
-        }
-        this.icon = data.icon ?? data.icon_hash
-        this.owner = data.owner_id /* create user or get user */
-        this.afkTimeout = data.afk_timeout
-        this.afkChannel = data.afk_channel_id
-        this.verificationLevel = data.verification_level
-        this.notificationLevel = data.default_message_notifications
-        this.explicitContentFilter = data.explicit_content_filter
-        this.mfa = data.mfa_level
-        this.systemChannel = data.system_channel_id
-        this.rulesChannel = data.rules_channel_id
-        this.maxMembers = data.max_members
-        this.maxPresences = data.max_presences
-        this.desciption = data.desciption
-        this.banner = data.banner
-        this.premium  = data.premium_tier
-        this.premiumCount = data.premium_subscription_count ?? 0
-        this.premiumBarEnabled = data.premium_progress_bar_enabled
-        this.nsfwLevel = data.nsfw_level
-        this.local = data.preferred_locale
-        this.CommunityUpdateChannel = data.public_updates_channel_id
-        this.maxUsersInVideoChannel = data.max_video_channel_users
-        this.aMemberCount = data.approximate_member_count
-        this.aPresenceCount = data.approximate_presence_count
-
-
-
+        this.set("id", data.id)
+        .set("name", data.name)
+        .set("channels", (new Channel.manager(lunae))._fill(data.channels, {managers:[lunae.channels], instancer:Channel, properties:[{name:"guild", value:this}]}))
+        .set("icon", data.icon ?? data.icon_hash)
+        .set("owner", data.owner_id) /* create user or get user */
+        .set("afkTimeout", data.afk_timeout) /* create channel or get channel */
+        .set("afkChannel", data.afk_channel_id)
+        .set("verificationLevel", data.verification_level)
+        .set("notificationLevel", data.default_message_notifications)
+        .set("explicitContentFilter", data.explicit_content_filter)
+        .set("systemChannel", data.system_channel_id)/* create channel or get channel */
+        .set("rulesChannel", data.rules_channel_id)/* create channel or get channel */
+        .set("maxMembers", data.max_members)
+        .set("maxPresences", data.max_presences)
+        .set("desciption", data.desciption)
+        .set("banner", data.banner)
+        .set("premium", data.premium_tier)
+        .set("premiumCount", data.premium_subscription_count ?? 0)
+        .set("premiumBarEnabled", data.premium_progress_bar_enabled)
+        .set("mfa", data.mfa_level)
+        .set("nsfwLevel", data.nsfw_level)
+        .set("local", data.preferred_locale)
+        .set("CommunityUpdateChannel", data.public_updates_channel_id)/* create channel or get channel */
+        .set("maxUsersInVideoChannel", data.max_video_channel_users)
+        .set("aMemberCount", data.approximate_member_count)
+        .set("aPresenceCount", data.approximate_presence_count)
+        
+        
         this.features = data.features /* parse to roles manager */
         this.roles = data.roles /* parse to roles manager */
         this.emojis = data.emojis /* parse to emoji manager */
@@ -181,6 +170,12 @@ class Guild{
     async prune(){}
     async getVoiceRegions(){}
     async getVanityURL(){}
+
+    set(key, value){
+        if([null, undefined].includes(value))null
+        else this[key]=value
+        return this
+    }
 }
 
 module.exports = formatGuild

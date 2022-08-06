@@ -1,4 +1,4 @@
-const [ error, BaseManager, Message ] = [ require("../tools/Error"), require("../manager/BaseManager"), require("./Message")] /* production */
+const [ error, BaseManager, Message, Embed ] = [ require("../tools/Error"), require("../manager/BaseManager"), require("./Message"), require("./Embed")] /* production */
 
 function formatChannel(data, lunae){
 
@@ -26,6 +26,10 @@ class BaseChannel{
         } else if(object instanceof Object && !(object instanceof Array)){
             data = object
         }
+
+        if(Array.isArray(data.embeds)){
+            data.embeds.map(t=>{if(t instanceof Embed)return t.json(); else return t})
+        }
         const message = await this.lunae.net.api.channels[this.id].messages.post(data)
         return message
         if(!message.id)return message
@@ -44,74 +48,74 @@ class BaseChannel{
 }
 
 class TextChannel extends BaseChannel{
-    constructor(){
-
+    constructor(data, lunae){
+        super(data, lunae)
     }
 }
 
 class VoiceChannel extends BaseChannel{
-    constructor(){
-
+    constructor(data, lunae){
+        super(data, lunae)
     }
 }
 
 class DmChannel extends BaseChannel{
-    constructor(){
-
+    constructor(data, lunae){
+        super(data, lunae)
     }
 }
 
 class GroupDmChannel extends BaseChannel{
-    constructor(){
-
+    constructor(data, lunae){
+        super(data, lunae)
     }
 }
 
 class CategoryChannel extends BaseChannel{
-    constructor(){
-
+    constructor(data, lunae){
+        super(data, lunae)
     }
 }
 
 class NewsChannel extends BaseChannel{
-    constructor(){
-
+    constructor(data, lunae){
+        super(data, lunae)
     }
 }
 
 class NewsThreadChannel extends BaseChannel{
-    constructor(){
-
+    constructor(data, lunae){
+        super(data, lunae)
     }
 }
 
 class PublicThreadChannel extends BaseChannel{
-    constructor(){
-
+    constructor(data, lunae){
+        super(data, lunae)
     }
 }
 
 class PrivateThreadChannel extends BaseChannel{
-    constructor(){
-
+    constructor(data, lunae){
+        super(data, lunae)
     }
 }
 
 class StageChannel extends BaseChannel{
-    constructor(){
-
+    constructor(data, lunae){
+        super(data, lunae)
     }
 }
 
 class DirectoryChannel extends BaseChannel{
-    constructor(){
-
+    constructor(data, lunae){
+        super(data, lunae)
     }
 }
 
 class ForumChannel extends BaseChannel{
-    constructor(){
-
+    constructor(data, lunae){
+        super(data, lunae)
     }
 }
 

@@ -20,7 +20,9 @@
     "uuid": "^8.3.2",
     "ws": "^8.8.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@lilevil/cli": "^1.0.2"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lil-evil/lunae.git"
